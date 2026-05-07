@@ -15,23 +15,10 @@ import org.springframework.web.server.ResponseStatusException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpEntity
 
-@Document(collection = "friends")
-data class Friend(
-    @Id var id: String? = null,
-    var userId: String = "",
-    var friendId: String = "",
-    var friendName: String = ""
-)
-
-interface FriendRepository : MongoRepository<Friend, String> {
-    fun findByUserId(userId: String): List<Friend>
-    fun deleteByUserId(userId: String)
-}
 
 @RestController
 @RequestMapping("/api/social")
 class SocialController(
-    private val friendRepository: FriendRepository,
     private val userRepository: UserRepository,
     @Value("\${keycloak.admin.server-url}") private val keycloakUrl: String,
     @Value("\${keycloak.admin.realm}") private val adminRealm: String,
@@ -140,21 +127,4 @@ class SocialController(
         return null
     }
 
-    @GetMapping("/friends")
-    fun getFriends(auth: Authentication) = friendRepository.findByUserId(auth.sub())
-
-    @PostMapping("/friends")
-    fun addFriend(@RequestBody friend: Friend, auth: Authentication) = friend.apply {
-        userId = auth.sub()
-    }.let { friendRepository.save(it) }
-
-    @DeleteMapping("/friends/{id}")
-    fun removeFriend(@PathVariable id: String, auth: Authentication) {
-        val f = friendRepository.findById(id)
-            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
-        if (f.userId != auth.sub()) {
-            throw ResponseStatusException(HttpStatus.FORBIDDEN)
-        }
-        friendRepository.deleteById(id)
-    }
 }

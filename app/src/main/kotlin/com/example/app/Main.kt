@@ -30,16 +30,6 @@ fun main(args: Array<String>) {
     runApplication<Main>(*args)
 }
 
-@Document(collection = "users")
-data class UserAccount(
-    @Id var id: String = "",
-    var username: String = "",
-    var name: String = "",
-    var email: String = ""
-)
-
-interface UserRepository : MongoRepository<UserAccount, String>
-
 @Component
 class AuthenticationEventListener(private val userRepository: UserRepository) : ApplicationListener<AuthenticationSuccessEvent> {
     override fun onApplicationEvent(event: AuthenticationSuccessEvent) {
@@ -70,9 +60,6 @@ class HealthController {
 @RestController
 @RequestMapping("/api/user")
 class UserController(
-    private val locationRepository: LocationRepository,
-    private val favouriteRepository: FavouriteRepository,
-    private val friendRepository: FriendRepository,
     private val gridFsTemplate: GridFsTemplate,
     private val mongoTemplate: org.springframework.data.mongodb.core.MongoTemplate
 ) {
@@ -118,8 +105,6 @@ class UserController(
     }
 
     private fun deleteUserData(userId: String, log: org.slf4j.Logger) {
-        favouriteRepository.deleteByUserId(userId)
-        friendRepository.deleteByUserId(userId)
         deleteUserFiles(userId, log)
     }
 
@@ -135,17 +120,6 @@ class UserController(
 
 @Controller
 class ForwardController {
-    @RequestMapping(value = ["/dashboard", "/map", "/files", "/info"])
+    @RequestMapping(value = ["/dashboard", "/files", "/info"])
     fun forward() = "forward:/index.html"
-}
-
-@Bean
-fun initData(locationRepository: LocationRepository) = CommandLineRunner {
-    if (locationRepository.count() == 0L) {
-        locationRepository.saveAll(listOf(
-            Location(name = "Central Park", description = "A large public, urban park in the city center.", category = "Park", lat = 40.7812, lng = -73.9665),
-            Location(name = "Art Museum", description = "A museum featuring modern and contemporary art.", category = "Museum", lat = 40.7614, lng = -73.9776)
-        ))
-        println("Sample data injected into MongoDB.")
-    }
 }

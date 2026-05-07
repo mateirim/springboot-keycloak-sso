@@ -4,7 +4,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
 
 import { AppComponent } from './app.component';
-import { CreatorComponent } from './creator/creator.component';
 import { AdminComponent } from './admin/admin.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UserComponent } from './user/user.component';
@@ -38,7 +37,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,
-    CreatorComponent,
     AdminComponent,
     UserComponent,
     DashboardComponent,
