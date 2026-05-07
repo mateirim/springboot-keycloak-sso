@@ -9,6 +9,9 @@ A high-performance, **Production-Grade SSO Template** featuring **Spring Boot 3.
 
 ![Showcase](docs/media/showcase.webp)
 
+> [!TIP]
+> **Looking for a minimal template?** Check out the [`light`](../../tree/light) branch for a streamlined version featuring only core SSO and GridFS file management (no maps or social features).
+
 > **Evaluation Mode**: `docker compose up` → [http://localhost:8080](http://localhost:8080)
 
 ## Features
