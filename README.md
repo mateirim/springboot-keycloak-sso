@@ -101,7 +101,7 @@ Three roles control what users can do in the app:
 | `KEYCLOAK_CLIENT_SECRET` | - | OAuth2 client secret |
 | `KEYCLOAK_ISSUER_URI` | - | Keycloak realm endpoint (public URL) |
 | `KEYCLOAK_SERVER_URL` | `http://keycloak.keycloak.svc.cluster.local` | Internal Keycloak URL (Port 80) |
-| `KEYCLOAK_REALM` | `Broker_Matei` | Production IDP Realm |
+| `KEYCLOAK_REALM` | `master` | Keycloak realm for authentication |
 | `MONGO_URI` | `mongodb://localhost:27017/app_db` | MongoDB connection string |
 | `CORS_ALLOWED_ORIGINS` | `https://app.example.com` | Production CORS origins |
 

@@ -118,4 +118,4 @@ curl -X POST http://localhost:8080/api/favourites -d '{}' -H "Content-Type: appl
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — Authentication flows, token lifecycle
 - [Infrastructure Template] — Full Kubernetes deployment setup
-- [GitHub Security Policy](https://github.com/{GITHUB_USER}/springboot-keycloak-sso/security/policy)
+- [GitHub Security Policy](https://github.com/mateirim/springboot-keycloak-sso/security/policy)

@@ -5,10 +5,10 @@ Contributions are welcome. This project focuses on essential SSO patterns — fi
 ## Quick start
 
 ```bash
-git clone https://github.com/{GITHUB_USER}/springboot-keycloak-sso
+git clone https://github.com/mateirim/springboot-keycloak-sso
 cd springboot-keycloak-sso
 cp .env.example .env   # fill in your values
-make up                # starts MongoDB + Keycloak + app
+docker compose up      # starts MongoDB + Keycloak + app
 ```
 
 The app is at `http://localhost:8080`. The Keycloak admin console is at `http://localhost:8080/keycloak` (admin/admin in dev mode).
