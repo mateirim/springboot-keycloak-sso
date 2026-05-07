@@ -5,7 +5,7 @@
 [![Keycloak](https://img.shields.io/badge/Keycloak-26-4D9EB8?logo=keycloak&logoColor=white)](https://keycloak.org)
 [![Status](https://img.shields.io/badge/Status-v1.0.0--Stable-blue)](https://github.com/mateirim/springboot-keycloak-sso)
 
-A high-performance, **Production-Grade SSO Template** featuring **Spring Boot 3.5**, **Kotlin 2.1**, and **Keycloak 26**. This repository provides a reference architecture for a full-stack dashboard with real-time user discovery, GridFS file sharing, and hardened IDP integration.
+A high-performance, **Lightweight SSO Template** featuring **Spring Boot 3.5**, **Kotlin 2.1**, and **Keycloak 26**. This repository provides a streamlined reference architecture for core identity management, user synchronization, and secure GridFS file sharing.
 
 ![Showcase](docs/media/showcase.webp)
 
@@ -18,7 +18,7 @@ A high-performance, **Production-Grade SSO Template** featuring **Spring Boot 3.
 - **BFF Pattern**: Secure session-based auth for the SPA.
 - **Dual Auth Flows**: Browser (Session) and API (Stateless JWT) support.
 - **GridFS Storage**: Scalable, multi-user file sharing and permissions.
-- **Modern UI**: Angular 18 Material dashboard with MapLibre.
+- **Modern UI**: Angular 18 Material dashboard for file management and profile settings.
 
 ## Quick Start
 
@@ -40,7 +40,7 @@ docker compose up
 2. Set username (e.g., `testuser`), enable user
 3. Credentials tab → set password (temporary: off)
 4. Open [http://localhost:8080](http://localhost:8080) → login
-5. App auto-initializes with sample locations
+5. App auto-initializes and synchronizes your profile from Keycloak
 
 ## Documentation
 
@@ -56,20 +56,14 @@ All endpoints require authentication (Bearer token or session cookie). Health ch
 |--------|------|-------------|
 | `GET` | `/api/health` | Health check (no auth) |
 | `GET` | `/api/user/info` | Current user profile + roles |
-| `POST` | `/api/user/reset` | Delete all user data |
-| `GET` | `/api/locations` | List locations |
-| `GET` | `/api/favourites` | User's favorite locations |
-| `POST` | `/api/favourites` | Add favorite |
-| `DELETE` | `/api/favourites/{id}` | Remove favorite |
+| `POST` | `/api/user/reset` | Delete all user data (files) |
 | `GET` | `/api/files` | List user's files (GridFS) |
 | `POST` | `/api/files` | Upload file (max 500MB) |
 | `GET` | `/api/files/{id}` | Download file |
 | `POST` | `/api/files/{id}/share` | Share file with another user |
 | `DELETE` | `/api/files/{id}` | Delete file |
-| `GET` | `/api/social/users` | App users (excluding self) |
-| `GET` | `/api/social/friends` | User's friends |
-| `POST` | `/api/social/friends` | Add friend |
-| `DELETE` | `/api/social/friends/{id}` | Remove friend |
+| `GET` | `/api/social/users` | Registered users (for file sharing) |
+| `GET` | `/api/social/keycloak-users` | Keycloak user discovery |
 
 ## Role-Based Access Control (RBAC)
 
@@ -77,8 +71,8 @@ Three roles control what users can do in the app:
 
 | Role | Permissions | Keycloak Setup |
 |------|-------------|-----------------|
-| **reader** | Login, view locations, download files | Add `reader` role in Keycloak realm |
-| **contributor** | Upload files, add favorites, share files, add friends | Add `contributor` role |
+| **reader** | Login, download shared files | Add `reader` role in Keycloak realm |
+| **contributor** | Upload files, share files with users | Add `contributor` role |
 | **administrator** | Full access including delete files and reset user data | Add `administrator` role |
 
 **Backend enforcement**: Role checks on `/api/files` POST (upload) and DELETE endpoints return `403 Forbidden` for unauthorized roles.
@@ -109,9 +103,6 @@ See `.env.example` for the full template.
 
 **MongoDB collections:**
 - `users` — Synced from Keycloak on login
-- `locations` — Sample data (auto-loads if empty)
-- `favourites` — User's favorite locations (indexed by userId)
-- `friends` — User connections
 - `fs.files` / `fs.chunks` — GridFS file storage
 
 Sample data auto-initializes on first run if collections are empty.
