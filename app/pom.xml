@@ -11,7 +11,7 @@
 
 	<groupId>com.example</groupId>
 	<artifactId>springboot-keycloak-sso</artifactId>
-	<version>1.0</version>
+	<version>1.1.0-light</version>
 	<name>Spring Boot Keycloak SSO</name>
 	<description>Production-ready Spring Boot 3 + Angular 18 + Keycloak 26 SSO template</description>
 	<properties>
