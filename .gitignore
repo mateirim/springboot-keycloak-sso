@@ -40,5 +40,8 @@ credentials.yaml
 *.log
 logs/
 
+# Build artifacts
+app/src/main/resources/public/
+
 # Explicitly allow documentation media
 !docs/media/showcase.webp
