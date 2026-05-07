@@ -3,11 +3,9 @@
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.1-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5-6DB33F?logo=springboot&logoColor=white)](https://spring.io)
 [![Keycloak](https://img.shields.io/badge/Keycloak-26-4D9EB8?logo=keycloak&logoColor=white)](https://keycloak.org)
-[![Status](https://img.shields.io/badge/Status-v1.0.0--Stable-blue)](https://app.example.com)
+[![Status](https://img.shields.io/badge/Status-v1.0.0--Stable-blue)](https://github.com/mateirim/springboot-keycloak-sso)
 
 A high-performance, **Production-Grade SSO Template** featuring **Spring Boot 3.5**, **Kotlin 2.1**, and **Keycloak 26**. This repository provides a reference architecture for a full-stack dashboard with real-time user discovery, GridFS file sharing, and hardened IDP integration.
-
-> **Live Reference**: [https://app.example.com](https://app.example.com)
 
 ![Showcase](docs/media/showcase.webp)
 
@@ -15,12 +13,12 @@ A high-performance, **Production-Grade SSO Template** featuring **Spring Boot 3.
 
 ## Features
 
-- **Kotlin 2.1 Backend**: Built with idiomatic Kotlin patterns, extension functions, and null-safety
-- **Resilient Social Hub**: Real-time user discovery with 3s parallel timeout and local DB fallback
-- **Hardened Keycloak IDP**: Optimized 2Gi memory allocation with port 80 internal routing
-- **File Sharing System**: Multi-user GridFS storage with secure sharing and role-based permissions
-- **Dual Security Chains**: Separate OAuth2/Session flows for browser vs. Stateless JWT for APIs
-- **Premium UI/UX**: Theme-aware dashboard with high-contrast MapLibre integration
+- **Kotlin 2.1 & Spring Boot 3.5**: Type-safe, high-performance backend.
+- **Keycloak 26 Integration**: Hardened OIDC / OAuth2 identity management.
+- **BFF Pattern**: Secure session-based auth for the SPA.
+- **Dual Auth Flows**: Browser (Session) and API (Stateless JWT) support.
+- **GridFS Storage**: Scalable, multi-user file sharing and permissions.
+- **Modern UI**: Angular 18 Material dashboard with MapLibre.
 
 ## Quick Start
 
@@ -156,15 +154,25 @@ ng serve
 
 ## Deployment
 
-### Docker Compose (dev/testing)
+### Docker
+
+**Local Build & Run**:
 ```bash
-docker compose up
+make build    # Build the app image (multi-stage)
+make up       # Start the full stack
 ```
 
-### Kubernetes (production)
-See [k8s/](k8s/) for StatefulSet, Ingress, and secret management.
+**Registry Push**:
+```bash
+# Builds and pushes to registry.example.com by default
+make push REGISTRY=your-registry.com TAG=v1.0.0
+```
 
-For full k8s deployment with Helm/kustomize, see [homelab-infra](https://github.com/mateirim/homelab-infra).
+### Kubernetes (Production)
+See [k8s/](k8s/) for StatefulSet, Ingress, and secret management manifests.
+
+For a full GitOps deployment with Helm/Kustomize, refer to the [homelab-infra](https://github.com/mateirim/homelab-infra) repository.
+
 
 ## Troubleshooting
 

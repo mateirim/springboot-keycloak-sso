@@ -1,5 +1,52 @@
 # Security Policy
 
+## Authentication Flows
+
+### Browser Flow (OAuth2 Session)
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant SPA as Angular SPA
+    participant Backend as Spring Boot
+    participant KC as Keycloak
+    participant IdP as Identity Provider
+
+    User->>SPA: Click login
+    SPA->>Backend: GET /login
+    Backend->>KC: Redirect to /auth
+    KC->>IdP: (optional broker)
+    User->>IdP: Authenticate
+    IdP->>KC: Grant
+    KC->>Backend: Redirect + code
+    Backend->>KC: Exchange code for token
+    KC->>Backend: Access token + refresh token
+    Backend->>SPA: Set secure session cookie (JSESSIONID)
+    SPA->>Backend: All requests include JSESSIONID
+    Backend->>Backend: Validate session
+    Backend->>SPA: 200 OK
+```
+
+### API Flow (JWT Bearer or Session)
+
+```mermaid
+sequenceDiagram
+    participant Client as API Client
+    participant Backend as Spring Boot
+    participant KC as Keycloak
+
+    Client->>Backend: GET /api/locations + Bearer token
+    Backend->>KC: Validate JWT signature
+    KC->>Backend: Valid ✓
+    Backend->>Backend: Extract claims (sub, roles)
+    Backend->>Client: 200 + data
+
+    Note over Client,Backend: OR session-based:
+    Client->>Backend: GET /api/locations + JSESSIONID
+    Backend->>Backend: Look up session
+    Backend->>Client: 200 + data
+```
+
 ## Supported versions
 
 | Version | Supported |
