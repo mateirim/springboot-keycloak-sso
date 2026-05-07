@@ -1,0 +1,44 @@
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Environment / Secrets
+.env
+*.secret
+*.key
+*.pem
+credentials.yaml
+
+# Java / Maven
+**/target/
+**/.mvn/
+**/release.properties
+**/pom.xml.tag
+**/pom.xml.releaseBackup
+**/pom.xml.nextSnapshot
+**/pom.xml.versionsBackup
+
+# Node / Angular
+**/node_modules/
+**/dist/
+**/.angular/
+**/.npm/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/.editorconfig
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Local logs
+*.log
+logs/
+
+# Explicitly allow documentation media
+!docs/media/showcase.webp

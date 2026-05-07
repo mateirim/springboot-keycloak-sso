@@ -1,0 +1,63 @@
+<header class="app-header">
+  <div class="header-content">
+    <div class="brand" routerLink="/">
+      <div class="logo-glow"></div>
+      <div class="app-logo"></div>
+      <span class="app-title">Spring<span class="accent-gradient">Boot</span></span>
+    </div>
+
+    <nav class="main-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/creator" routerLinkActive="active" class="nav-item">
+        <mat-icon>map</mat-icon>
+        <span>Map</span>
+      </a>
+      <a routerLink="/files" routerLinkActive="active" class="nav-item">
+        <mat-icon>folder_open</mat-icon>
+        <span>Files</span>
+      </a>
+      <a routerLink="/info" routerLinkActive="active" class="nav-item">
+        <mat-icon>info</mat-icon>
+        <span>Info</span>
+      </a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="user-pill" [matMenuTriggerFor]="profileMenu">
+        <div class="user-avatar-small">{{ (username || 'U')[0].toUpperCase() }}</div>
+        <span class="user-pill-name">{{ username || 'User' }}</span>
+        <mat-icon>expand_more</mat-icon>
+      </div>
+    </div>
+  </div>
+</header>
+
+<mat-menu #profileMenu="matMenu" class="profile-dropdown">
+  <div class="menu-header" (click)="$event.stopPropagation()">
+    <div class="menu-avatar">{{ (username || 'U')[0].toUpperCase() }}</div>
+    <div class="menu-user-details">
+      <span class="menu-username">{{ username || 'User' }}</span>
+      <span class="menu-role">Keycloak Principal</span>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <button mat-menu-item routerLink="/user">
+    <mat-icon>manage_accounts</mat-icon>
+    <span>Settings</span>
+  </button>
+  <a mat-menu-item href="/logout">
+    <mat-icon>logout</mat-icon>
+    <span>Sign Out</span>
+  </a>
+</mat-menu>
+
+<main class="main-content">
+  <div class="content-wrapper stagger-item">
+    <router-outlet></router-outlet>
+  </div>
+</main>
+
+

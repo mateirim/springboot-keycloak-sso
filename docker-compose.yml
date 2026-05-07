@@ -1,0 +1,76 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: springboot-keycloak-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: app_db
+    volumes:
+      - mongo_data:/data/db
+      - ./docker/init-mongo.js:/docker-entrypoint-initdb.d/01-init.js:ro
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - springboot-keycloak-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    container_name: springboot-keycloak-keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: dev-mem
+    command:
+      - start-dev
+    ports:
+      - "8180:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 2>/dev/null && echo ok || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 60s
+    networks:
+      - springboot-keycloak-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: springboot-keycloak-app
+    environment:
+      KEYCLOAK_CLIENT_ID: springboot-app
+      KEYCLOAK_CLIENT_SECRET: changeme
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/master
+      KEYCLOAK_SERVER_URL: http://keycloak:8080
+      KEYCLOAK_REALM: master
+      MONGO_URI: mongodb://admin:password@mongodb:27017/app_db?authSource=admin
+      CORS_ALLOWED_ORIGINS: http://localhost:8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/api/health > /dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 45s
+    networks:
+      - springboot-keycloak-network
+
+volumes:
+  mongo_data:
+
+networks:
+  springboot-keycloak-network:
+    driver: bridge

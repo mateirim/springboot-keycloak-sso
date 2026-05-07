@@ -1,0 +1,14 @@
+<div class="creator-container">
+  <div id="map"></div>
+
+  <nav class="filter-panel glass-panel">
+    <mat-icon>search</mat-icon>
+    <input
+      [value]="filterValue"
+      (input)="onFilterChange($any($event.target).value)"
+      placeholder="Filter by name or category">
+    <button mat-icon-button *ngIf="filterValue" (click)="clearFilter()" matTooltip="Clear filter">
+      <mat-icon>close</mat-icon>
+    </button>
+  </nav>
+</div>
