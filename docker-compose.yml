@@ -1,0 +1,55 @@
+services:
+
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    container_name: springboot-keycloak-keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      # For persistence, change to dev-file (Keycloak 25+) or h2 (older).
+      KC_DB: dev-mem
+      # dev-file persists users/config to a local file within the container.
+      # For production, replace with postgres and a proper KC_DB_URL.
+    command:
+      - start-dev
+    ports:
+      - "8180:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 2>/dev/null && echo ok || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 60s
+    networks:
+      - springboot-keycloak-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: springboot-keycloak-app
+    environment:
+      KEYCLOAK_CLIENT_ID: springboot-app
+      KEYCLOAK_CLIENT_SECRET: changeme
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/master
+      KEYCLOAK_SERVER_URL: http://keycloak:8080
+      KEYCLOAK_REALM: master
+      CORS_ALLOWED_ORIGINS: http://localhost:8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/api/health > /dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 45s
+    networks:
+      - springboot-keycloak-network
+
+networks:
+  springboot-keycloak-network:
+    driver: bridge

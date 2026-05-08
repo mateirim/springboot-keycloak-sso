@@ -1,0 +1,17 @@
+*{
+    margin: 0;
+    padding: 0;
+    background-color: #4c08de;
+    }
+    
+    .logout{
+    margin-left:20px;
+    }
+    
+    .dashboard{
+    background-color: #694ED6;
+    border: 2px solid black;
+    border-radius: 7px;
+    color: white;
+    cursor: pointer;
+    }

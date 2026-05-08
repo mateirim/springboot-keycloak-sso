@@ -1,0 +1,37 @@
+<div class="info-page animate-in">
+
+  <!-- User Profile Card -->
+  <div class="card glass profile-card" *ngIf="!loading && userInfo">
+    <div class="profile-header">
+      <div class="avatar-lg">{{ (userInfo.name || userInfo.username || 'U')[0].toUpperCase() }}</div>
+      <div class="profile-meta">
+        <h2>{{ userInfo.name || userInfo.username }}</h2>
+        <span class="username-pill">&#64;{{ userInfo.username }}</span>
+        <span class="email">{{ userInfo.email }}</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="roles-section">
+      <h4>Assigned Roles</h4>
+      <div class="roles-row" *ngIf="userInfo.roles?.length > 0">
+        <span class="role-badge" *ngFor="let role of userInfo.roles">
+          <mat-icon>verified_user</mat-icon>{{ role }}
+        </span>
+      </div>
+      <p class="no-roles" *ngIf="!userInfo.roles?.length">No roles assigned.</p>
+    </div>
+  </div>
+
+  <div class="card glass loading-card" *ngIf="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <span>Loading profile…</span>
+  </div>
+
+  <div class="card glass error-card" *ngIf="error">
+    <mat-icon color="warn">error_outline</mat-icon>
+    <span>Failed to load profile. Please sign in again.</span>
+  </div>
+
+</div>
