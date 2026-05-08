@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: springboot-app
+  namespace: apps
+spec:
+  serviceName: springboot-app
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springboot-app
+  template:
+    metadata:
+      labels:
+        app: springboot-app
+    spec:
+      imagePullSecrets:
+        - name: registry
+      containers:
+        - name: springboot-app
+          image: registry.example.com/springboot-keycloak-sso:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KEYCLOAK_CLIENT_ID
+              value: springboot-app
+            # Auth realm — where springboot-app client lives and users log in
+            - name: KEYCLOAK_ISSUER_URI
+              valueFrom:
+                secretKeyRef:
+                  name: springboot-app-secrets
+                  key: KEYCLOAK_ISSUER_URI
+            # Internal cluster URL for admin API calls
+            - name: KEYCLOAK_SERVER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: springboot-app-secrets
+                  key: KEYCLOAK_SERVER_URL
+            # Realm where end-users live (for Browse Users)
+            - name: KEYCLOAK_USERS_REALM
+              valueFrom:
+                secretKeyRef:
+                  name: springboot-app-secrets
+                  key: KEYCLOAK_USERS_REALM
+            # Admin realm for getting cross-realm admin token (always master)
+            - name: KEYCLOAK_REALM
+              value: master
+            - name: CORS_ALLOWED_ORIGINS
+              valueFrom:
+                secretKeyRef:
+                  name: springboot-app-secrets
+                  key: CORS_ALLOWED_ORIGINS
+            - name: SERVER_FORWARD_HEADERS_STRATEGY
+              value: native
+            - name: SERVER_TOMCAT_REMOTE_IP_HEADER
+              value: x-forwarded-for
+            - name: SERVER_TOMCAT_PROTOCOL_HEADER
+              value: x-forwarded-proto
+            - name: SERVER_TOMCAT_USE_RELATIVE_REDIRECTS
+              value: "false"
+            - name: KEYCLOAK_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: springboot-app-secrets
+                  key: KEYCLOAK_CLIENT_SECRET
+            - name: KEYCLOAK_ADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: springboot-app-secrets
+                  key: KEYCLOAK_ADMIN_USERNAME
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: springboot-app-secrets
+                  key: KEYCLOAK_ADMIN_PASSWORD
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: springboot-app-secrets
+                  key: MONGO_URI
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - 'true'
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "100m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+      terminationGracePeriodSeconds: 60

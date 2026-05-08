@@ -1,0 +1,101 @@
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing:border-box;
+    background: #f2e6ff;
+    }
+    
+    .landing{
+    display:flex;
+    text-align:center;
+    justify-content:center;
+    margin-top:20px;
+    }
+    
+    .question{
+    margin-left: 20px;
+    }
+    
+    .press{
+    margin-top: 30px;
+    margin-left: 20px;
+    }
+    
+    .button-administrator{
+    background-color: #3333cc;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 20px;
+    cursor: pointer;
+    }
+    
+    .button-logout{
+    background-color: #414141;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 20px;
+    cursor: pointer;
+    }
+    
+    .button-dashboard{
+    background-color: #FFFFFF;
+    border: 2px solid black;
+    border-radius: 7px;
+    color: black;
+    padding: 15px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 20px;
+    cursor: pointer;
+    }
+    
+    .button-creator{
+        background-color: #694ED6;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        padding: 15px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 10px 20px;
+        cursor: pointer;
+    }
+    
+    
+    .button-approver{
+        background-color: #C137A2;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        padding: 15px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 10px 20px;
+        cursor: pointer;
+    }
+    
+    
+    .dashboard{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:20px;
+    }

@@ -1,0 +1,139 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    text-align: center;
+    background-color: #B4A6EA;
+ 
+ }
+     html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+    width: window.innerWidth;
+    height: window.innerWidth;
+    color: #fff;
+    background: linear-gradient(-45deg,
+    #694ED6, #8F7BE1, #B4A6EA, #DF9AD0, #D069B9,  #C137A2);
+    background-size: 400% 400%;
+    -webkit-animation: Gradient 45s ease infinite;
+    -moz-animation: Gradient 45s ease infinite;
+    animation: Gradient 45s ease infinite;
+}
+
+@-webkit-keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@-moz-keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+input {
+    background-color: DodgerBlue;
+
+    border: solid;
+    color: white;
+    padding: 15px 32px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+input:hover {
+    background-color: RoyalBlue;
+}
+
+button {
+    background-color: DodgerBlue;
+
+    border: solid;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 16px;
+}
+    .went-wrong{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background-color: #eee6ff;
+    color: #414141;
+    margin-top: 20px;
+    }
+    
+    .working{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background-color: #eee6ff;
+    color: #414141;
+    margin-top: 15px;
+    }
+    .button{
+    background-color: #694ED6;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 20px;
+    cursor: pointer;
+    margin-top: 25px;
+    }
+    .button:hover {
+        background-color: RoyalBlue;
+    }
+    
+    .btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+    
+    .top-icons{
+    display: flex; 
+    text-align:center;
+    justify-content:center;
+    margin-top:5px;
+    padding: 10px;
+    }

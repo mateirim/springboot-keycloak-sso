@@ -1,0 +1,184 @@
+@use '@angular/material' as mat;
+@import 'maplibre-gl/dist/maplibre-gl.css';
+
+// ── Design Tokens ──
+:root {
+  --primary:       #6DB33F;
+  --primary-dark:  #4a7c28;
+  --primary-glow:  rgba(109, 179, 63, 0.4);
+  --accent:        #34D399;
+  --font-family:   'Inter', system-ui, -apple-system, sans-serif;
+  
+  // Dark (Default)
+  --bg-page:       #0a1628;
+  --bg-surface:    rgba(15, 30, 50, 0.7);
+  --bg-surface-solid: #0f1e32;
+  --border-color:  rgba(109, 179, 63, 0.15);
+  --text-primary:  #f0f4f0;
+  --text-secondary:#94a3b8;
+  --glass-blur:    blur(16px);
+}
+
+[data-theme="light"] {
+  --bg-page:       #f0f4f0;
+  --bg-surface:    rgba(255, 255, 255, 0.92);
+  --bg-surface-solid: #ffffff;
+  --border-color:  rgba(109, 179, 63, 0.25);
+  --text-primary:  #1e293b;
+  --text-secondary:#64748b;
+}
+
+@include mat.core();
+
+$spring-green: mat.m2-define-palette((
+  50:   #f0f8e8,
+  100:  #d8edbe,
+  200:  #bde191,
+  300:  #a1d563,
+  400:  #8ccb40,
+  500:  #6DB33F,
+  600:  #5ea234,
+  700:  #4a7c28,
+  800:  #3a5e1e,
+  900:  #263d12,
+  A100: #c8ff8e,
+  A200: #a5f55a,
+  A400: #7ce620,
+  A700: #68d400,
+  contrast: (
+    50: rgba(0,0,0,0.87),  100: rgba(0,0,0,0.87),  200: rgba(0,0,0,0.87),
+    300: rgba(0,0,0,0.87), 400: rgba(0,0,0,0.87),  500: rgba(0,0,0,0.87),
+    600: #fff, 700: #fff,  800: #fff, 900: #fff,
+    A100: rgba(0,0,0,0.87), A200: rgba(0,0,0,0.87),
+    A400: rgba(0,0,0,0.87), A700: rgba(0,0,0,0.87),
+  )
+), 500, 700, A200);
+
+$my-theme: mat.m2-define-dark-theme((
+  color: (
+    primary: $spring-green,
+    accent:  mat.m2-define-palette(mat.$m2-teal-palette, A400),
+  ),
+  typography: mat.m2-define-typography-config($font-family: var(--font-family)),
+));
+
+@include mat.all-component-themes($my-theme);
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--bg-page);
+  background-attachment: fixed; /* Prevents background tiling/leakage during scroll */
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="light"] {
+  background-color: #f0f4f0 !important;
+  body { background-color: #f0f4f0 !important; }
+}
+
+// ── Component Base Styles ──
+.main-content {
+  min-height: 100vh;
+  background-color: var(--bg-page);
+}
+.glass-panel {
+  background: var(--bg-surface);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  /* Added text shadow for readability in light/busy backgrounds */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.glass-card {
+  @extend .glass-panel;
+  padding: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover {
+    transform: translateY(-6px);
+    border-color: var(--primary);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+}
+
+h1, h2, h3 {
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  background: linear-gradient(to right, #f0f4f0, #8aab7e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mat-mdc-table {
+  background: transparent !important;
+  width: 100%;
+  .mat-mdc-header-cell { color: var(--text-secondary) !important; border-bottom: 1px solid var(--border-color) !important; }
+  .mat-mdc-cell { color: var(--text-primary) !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
+}
+
+// ── Light Theme Overrides ──
+[data-theme="light"] {
+  h1, h2, h3 {
+    background: linear-gradient(to right, #1e293b, #4a7c28) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+
+  .glass-panel, .glass-card {
+    background: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06) !important;
+    border-color: rgba(0,0,0,0.08) !important;
+  }
+
+  .mat-mdc-table {
+    background: #ffffff !important;
+    .mat-mdc-header-cell { 
+      background: rgba(0,0,0,0.02) !important; 
+      color: #64748b !important;
+      border-bottom: 2px solid rgba(109,179,63,0.2) !important;
+    }
+    .mat-mdc-cell { 
+      color: #1e293b !important; 
+      border-bottom: 1px solid rgba(0,0,0,0.08) !important; 
+    }
+    .mat-mdc-row:hover .mat-mdc-cell { background: rgba(109,179,63,0.08) !important; }
+  }
+
+  .app-header {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 1px solid rgba(109, 179, 63, 0.2) !important;
+  }
+
+  .nav-item { color: #64748b !important; }
+  .nav-item:hover { color: #1e293b !important; background: rgba(109,179,63,0.1) !important; }
+  .nav-item.active { color: #4a7c28 !important; background: rgba(109,179,63,0.15) !important; }
+
+  .username-pill { color: #4a7c28 !important; background: rgba(109,179,63,0.1) !important; }
+  .email { color: #64748b !important; }
+  .loc-name-text { color: #1e293b !important; }
+  .coord-cell { color: #64748b !important; }
+
+  /* Map Controls Contrast */
+  .maplibregl-ctrl-group {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.1) !important;
+    button { color: #1e293b !important; }
+  }
+}
+
+// ── Profile Dropdown Overlays (Always Global) ──
+.profile-dropdown .mat-mdc-menu-panel {
+  background: var(--bg-surface-solid) !important;
+  border: 1px solid var(--border-color);
+  border-radius: 16px !important;
+  
+  .mat-mdc-menu-item {
+    color: var(--text-primary);
+    &:hover { background: rgba(109, 179, 63, 0.1) !important; }
+  }
+}

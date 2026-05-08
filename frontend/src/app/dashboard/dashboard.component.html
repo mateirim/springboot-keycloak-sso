@@ -1,0 +1,57 @@
+<div class="dashboard-container">
+  <section class="hero-section">
+    <div class="hero-badge stagger-item">
+      <span class="pulse"></span>
+      Spring Boot + Keycloak SSO
+    </div>
+    <h1 class="stagger-item">Secure by Default,<br><span class="accent-gradient">Ready to Ship</span></h1>
+    <p class="hero-subtitle stagger-item">
+      A minimal, production-correct SSO template. OAuth2 + JWT, Angular frontend, MongoDB persistence — fork it and run in 5 minutes.
+    </p>
+
+  </section>
+
+  <div class="grid-layout">
+    <!-- Location Map -->
+    <div class="feature-card glass-card stagger-item" routerLink="/creator">
+      <div class="card-glow"></div>
+      <div class="card-icon-wrapper">
+        <mat-icon>map</mat-icon>
+      </div>
+      <h3>Location Map</h3>
+      <p>Browse and favourite locations on an interactive map. Backed by MongoDB with per-user favourites.</p>
+      <div class="card-footer">
+        <span>Open Map</span>
+        <mat-icon>arrow_forward</mat-icon>
+      </div>
+    </div>
+
+    <!-- Files -->
+    <div class="feature-card glass-card stagger-item" routerLink="/files">
+      <div class="card-glow info-glow"></div>
+      <div class="card-icon-wrapper">
+        <mat-icon>folder_open</mat-icon>
+      </div>
+      <h3>File Storage</h3>
+      <p>Upload, browse, and download files stored in MongoDB GridFS — per-user isolation enforced by JWT claims.</p>
+      <div class="card-footer">
+        <span>Manage Files</span>
+        <mat-icon>arrow_forward</mat-icon>
+      </div>
+    </div>
+
+    <!-- User Info -->
+    <div class="feature-card glass-card stagger-item" routerLink="/info">
+      <div class="card-glow info-glow"></div>
+      <div class="card-icon-wrapper">
+        <mat-icon>badge</mat-icon>
+      </div>
+      <h3>Token Claims</h3>
+      <p>Inspect the JWT claims extracted from your Keycloak session: username, email, roles, and more.</p>
+      <div class="card-footer">
+        <span>View Claims</span>
+        <mat-icon>arrow_forward</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
